@@ -13,7 +13,9 @@ function App() {
   // Listens to the db and fetch the text and set it to todos state when app starts.Whenever the snapshot changes, its sent to the app
   useEffect(() => {
     db.collection('todos').orderBy('timestamp','desc').onSnapshot(snapshot => {
-      setTodos(snapshot.docs.map(doc => doc.data().text))
+      setTodos(snapshot.docs.map(doc => ({id:doc.id ,todoo: doc.data().text})))
+      // console.log('id--',snapshot.docs.map(doc => doc.id));
+      // console.log('text--',snapshot.docs.map(doc => doc.data().text));
     })
   }, [])
 
@@ -32,16 +34,16 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Hello 🚀</h1>
+      <h1>The Notes App!! 📚</h1>
       <form>
         <FormControl>
-          <InputLabel>✅ Write a Todo</InputLabel>
+          <InputLabel>✅ Write anything here</InputLabel>
           <Input value={input} onChange={(e) => setInput(e.target.value)} />
         </FormControl>
 
         {/* disabled={!input} will disable the button when it is empty!! */}
         <Button disabled={!input} type='submit' onClick={addTodo} variant="contained" color="primary">
-          Add Todo
+          POST
         </Button>
 
       </form>
